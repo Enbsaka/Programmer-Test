@@ -7,6 +7,14 @@
 
 ## Como rodar
 
+### Banco de dados com Docker
+
+```bash
+docker compose up -d db
+```
+
+O banco sobe em `127.0.0.1:3307` com as credenciais ja refletidas em `ecommerce-api/.env.example`.
+
 ### Back-end
 
 ```bash
@@ -154,3 +162,14 @@ ORDER BY category_name;
 - O painel centraliza autenticacao, filtros de produtos, criacao de pedidos, listagem de pedidos e consulta de CEP.
 - A demonstracao do ViaCEP consome `GET /cep/{cep}` e exibe o retorno do back-end no front.
 - O token Sanctum e enviado automaticamente pelo Axios.
+
+## Comandos uteis
+
+### Banco Docker
+
+```bash
+cd ecommerce-api
+composer db:up
+composer db:fresh
+composer db:down
+```
