@@ -1,0 +1,15 @@
+.DS_Store
+.idea/
+.vscode/
+
+# Front-end
+/demo-api/node_modules/
+/demo-api/dist/
+
+# Back-end
+/ecommerce-api/vendor/
+/ecommerce-api/node_modules/
+/ecommerce-api/public/build/
+/ecommerce-api/storage/logs/*.log
+/ecommerce-api/storage/framework/views/*.php
+/ecommerce-api/database/database.sqlite
