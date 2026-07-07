@@ -23,3 +23,23 @@ Para alterar:
 ```bash
 VITE_API_URL=http://localhost:8000/api
 ```
+
+## Docker
+
+Na raiz do repositorio:
+
+```bash
+docker compose up --build -d demo
+```
+
+A interface fica disponivel em:
+
+```bash
+http://localhost:4173
+```
+
+Na stack Docker, o build do front ja sai apontando para:
+
+```bash
+http://localhost:8001/api
+```

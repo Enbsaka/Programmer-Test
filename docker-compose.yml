@@ -19,5 +19,54 @@ services:
       retries: 10
       start_period: 20s
 
+  api:
+    build:
+      context: ./ecommerce-api
+      dockerfile: Dockerfile
+    container_name: programmer-test-api
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      APP_NAME: Laravel
+      APP_ENV: local
+      APP_DEBUG: "true"
+      APP_URL: http://localhost:8001
+      APP_KEY: base64:F2V8iGzKYGxhNWLafvxNk/e3rfTn/DBe/HTBOZ6A14g=
+      LOG_CHANNEL: stderr
+      DB_CONNECTION: mysql
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_DATABASE: programmer_test
+      DB_USERNAME: programmer_test_user
+      DB_PASSWORD: programmer_test_password
+      SESSION_DRIVER: database
+      QUEUE_CONNECTION: database
+      CACHE_STORE: database
+      APP_SEED: "true"
+    ports:
+      - "8001:8000"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://127.0.0.1:8000/api/products"]
+      interval: 15s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+
+  demo:
+    build:
+      context: ./demo-api
+      dockerfile: Dockerfile
+      args:
+        VITE_API_URL: http://localhost:8001/api
+    container_name: programmer-test-demo
+    restart: unless-stopped
+    depends_on:
+      api:
+        condition: service_healthy
+    ports:
+      - "4173:80"
+
 volumes:
   mysql_data:

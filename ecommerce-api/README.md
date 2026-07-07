@@ -2,9 +2,25 @@
 
 API REST em Laravel para o desafio tecnico de e-commerce.
 
+## Stack com Docker
+
+O projeto pode subir com banco e API em containers.
+
+Na raiz do repositorio:
+
+```bash
+docker compose up --build -d
+```
+
+Isso disponibiliza:
+
+- API: `http://localhost:8001`
+- Demo front-end: `http://localhost:4173`
+- MySQL: `127.0.0.1:3307`
+
 ## Banco com Docker
 
-O projeto usa um banco `MySQL` em container.
+O projeto usa um banco `MySQL` em container e a API em Docker se conecta ao servico `db`.
 
 Na raiz do projeto:
 
@@ -50,3 +66,7 @@ composer db:fresh
 composer db:down
 php artisan test
 ```
+
+## Observacao sobre seed
+
+O `DatabaseSeeder` foi deixado idempotente para suportar o boot automatico do container da API sem duplicar dados demo.

@@ -7,6 +7,20 @@
 
 ## Como rodar
 
+### Stack completa com Docker
+
+```bash
+docker compose up --build -d
+```
+
+URLs da stack:
+
+- Front demo: `http://localhost:4173`
+- API Laravel: `http://localhost:8001`
+- Banco MySQL: `127.0.0.1:3307`
+
+O container da API aguarda o MySQL, aplica `migrate` automaticamente e executa o `DatabaseSeeder` de forma idempotente.
+
 ### Banco de dados com Docker
 
 ```bash
@@ -23,6 +37,12 @@ php artisan migrate:fresh --seed
 php artisan serve
 ```
 
+Ou, se quiser usar somente Docker para a API:
+
+```bash
+docker compose up --build -d api
+```
+
 Credenciais seed:
 
 - E-mail: `enzo@example.com`
@@ -36,11 +56,19 @@ npm install
 npm run dev
 ```
 
-Se precisar alterar a URL da API:
+Ou, se quiser usar somente Docker para o front:
+
+```bash
+docker compose up --build -d demo
+```
+
+Se precisar alterar a URL da API localmente:
 
 ```bash
 VITE_API_URL=http://localhost:8000/api
 ```
+
+Na stack Docker, o front ja e buildado apontando para `http://localhost:8001/api`.
 
 ## Mapeamento do desafio
 
@@ -172,4 +200,11 @@ cd ecommerce-api
 composer db:up
 composer db:fresh
 composer db:down
+```
+
+### Stack Docker completa
+
+```bash
+docker compose up --build -d
+docker compose down
 ```
