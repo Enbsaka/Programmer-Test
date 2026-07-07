@@ -18,17 +18,22 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        $user = User::query()->create([
-            'name' => 'Enzo Demo',
-            'email' => 'enzo@example.com',
-            'password' => Hash::make('12345678'),
-        ]);
+        $user = User::query()->updateOrCreate(
+            ['email' => 'enzo@example.com'],
+            [
+                'name' => 'Enzo Demo',
+                'password' => Hash::make('12345678'),
+            ]
+        );
 
-        $user->customer()->create([
-            'name' => 'Enzo Demo',
-            'email' => 'enzo@example.com',
-            'document' => '12345678900',
-        ]);
+        $user->customer()->updateOrCreate(
+            ['user_id' => $user->id],
+            [
+                'name' => 'Enzo Demo',
+                'email' => 'enzo@example.com',
+                'document' => '12345678900',
+            ]
+        );
 
         $categories = collect([
             'Notebooks',
@@ -36,7 +41,7 @@ class DatabaseSeeder extends Seeder
             'Perifericos',
             'Componentes',
         ])->mapWithKeys(function ($name) {
-            $category = Category::query()->create(['name' => $name]);
+            $category = Category::query()->firstOrCreate(['name' => $name]);
 
             return [$name => $category];
         });
@@ -80,14 +85,15 @@ class DatabaseSeeder extends Seeder
         ];
 
         foreach ($products as $item) {
-            $product = Product::query()->create([
+            $product = Product::query()->updateOrCreate([
                 'name' => $item['name'],
+            ], [
                 'description' => $item['description'],
                 'price' => $item['price'],
                 'stock' => $item['stock'],
             ]);
 
-            $product->categories()->attach(
+            $product->categories()->sync(
                 collect($item['categories'])->map(fn ($name) => $categories[$name]->id)->all()
             );
         }
